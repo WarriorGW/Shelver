@@ -44,7 +44,7 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-:root {
+/* :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -77,6 +77,55 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+} */
+
+:root {
+  --radius: 0.625rem;
+
+  --background: oklch(0.98 0.01 280); /* Blanco con tinte lila */
+  --foreground: oklch(0.15 0 0); /* Negro suave */
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.15 0 0);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0 0);
+
+  --primary: oklch(0.65 0.19 280); /* Lavanda/lila principal */
+  --primary-foreground: oklch(1 0 0); /* Blanco puro */
+
+  --secondary: oklch(0.9 0.05 280); /* Lavanda muy suave (fondos secundarios) */
+  --secondary-foreground: oklch(0.2 0.05 280); /* Texto sobre fondo suave */
+
+  --muted: oklch(0.94 0.01 280); /* Gris lavanda claro */
+  --muted-foreground: oklch(0.5 0.02 280); /* Texto gris lavanda oscuro */
+
+  --accent: oklch(0.75 0.15 290); /* Un tono violeta más rosado para resaltar */
+  --accent-foreground: oklch(1 0 0);
+
+  --destructive: oklch(0.57 0.25 27.3); /* Rojo (sin cambio) */
+  --destructive-foreground: oklch(1 0 0);
+
+  --border: oklch(0.88 0.02 280); /* Borde suave lavanda */
+  --input: oklch(0.92 0.01 280);
+  --ring: oklch(0.65 0.19 280); /* Igual que primary para enfoque */
+
+  /* Opcionales para gráficos (ajusta según necesidad) */
+  --chart-1: oklch(0.75 0.2 290);
+  --chart-2: oklch(0.65 0.18 200);
+  --chart-3: oklch(0.55 0.14 240);
+  --chart-4: oklch(0.82 0.2 70);
+  --chart-5: oklch(0.76 0.18 100);
+
+  /* Estilos para sidebar */
+  --sidebar: oklch(0.98 0.01 280);
+  --sidebar-foreground: oklch(0.15 0 0);
+  --sidebar-primary: oklch(0.65 0.19 280);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.9 0.05 280);
+  --sidebar-accent-foreground: oklch(0.2 0.05 280);
+  --sidebar-border: oklch(0.88 0.02 280);
+  --sidebar-ring: oklch(0.65 0.19 280);
 }
 
 .dark {
