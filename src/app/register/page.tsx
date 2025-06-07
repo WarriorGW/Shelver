@@ -2,6 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
   Form,
   FormControl,
   FormField,
@@ -11,7 +18,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -97,7 +103,7 @@ const formSchema = z
     message: "Las contraseñas deben coincidir",
   });
 
-function SignIn() {
+function Register() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -111,81 +117,95 @@ function SignIn() {
     console.log("Form submitted:", values);
   }
 
-  // const testData = {
-  //   username: "fernando",
-  //   password: "1234",
-  //   confirmPassword: "1234",
-  // };
-  // useEffect(() => {
-  //   try {
-  //     formSchema.parse(testData);
-  //     console.log("Test data is valid");
-  //   } catch (e) {
-  //     console.log(e.issues);
-  //   }
-  // });
-
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nombre de usuario</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  onChange={(e) => {
-                    field.onChange(e);
-                    form.trigger("username");
-                  }}
-                  onBlur={() => form.trigger("username")}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Contraseña</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  {...field}
-                  onChange={(e) => {
-                    field.onChange(e);
-                    form.trigger("password");
-                  }}
-                  onBlur={() => form.trigger("password")}
-                />
-              </FormControl>
-              {/* <FormMessage /> */}
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="confirmPassword"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Confirmar contraseña</FormLabel>
-              <FormControl>
-                <Input type="password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Guardar</Button>
-      </form>
-    </Form>
+    <Card className="w-full max-w-sm mx-auto mt-10">
+      <CardHeader>
+        <CardTitle>Registrarse</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form
+            id="register-form"
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col gap-6"
+          >
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nombre de usuario</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        form.trigger("username");
+                      }}
+                      onBlur={() => form.trigger("username")}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Contraseña</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        form.trigger("password");
+                      }}
+                      onBlur={() => form.trigger("password")}
+                    />
+                  </FormControl>
+                  <ul className="text-xs list-disc ml-5">
+                    {passwordValidations.map((v, i) => (
+                      <li
+                        key={i}
+                        className={
+                          v.check(field.value)
+                            ? "text-green-500"
+                            : "text-red-500"
+                        }
+                      >
+                        {v.message}
+                      </li>
+                    ))}
+                  </ul>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirmar contraseña</FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
+      </CardContent>
+      <CardFooter>
+        <Button type="submit" form="register-form" className="w-full">
+          Registrarse
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }
 
-export default SignIn;
+export default Register;
