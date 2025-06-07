@@ -11,8 +11,44 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+const passwordValidations = [
+  {
+    message: "Al menos 8 caracteres",
+    check: (val: string) => val.length >= 8,
+  },
+  {
+    message: "Al menos una letra mayúscula",
+    check: (val: string) => /[A-Z]/.test(val),
+  },
+  {
+    message: "Al menos una letra minúscula",
+    check: (val: string) => /[a-z]/.test(val),
+  },
+  {
+    message: "Al menos un carácter especial",
+    check: (val: string) => /[^a-zA-Z0-9]/.test(val),
+  },
+  {
+    message: "Sin números consecutivos",
+    check: (val: string) => !/(?:\d)(?=\d)/.test(val),
+  },
+  {
+    message: "Sin letras consecutivas (ej: abc)",
+    check: (val: string) => {
+      const lower = val.toLowerCase();
+      for (let i = 0; i < lower.length - 1; i++) {
+        const curr = lower.charCodeAt(i);
+        const next = lower.charCodeAt(i + 1);
+        if (/[a-z]/.test(lower[i]) && next === curr + 1) return false;
+      }
+      return true;
+    },
+  },
+];
 
 const formSchema = z
   .object({
@@ -74,6 +110,21 @@ function SignIn() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Form submitted:", values);
   }
+
+  // const testData = {
+  //   username: "fernando",
+  //   password: "1234",
+  //   confirmPassword: "1234",
+  // };
+  // useEffect(() => {
+  //   try {
+  //     formSchema.parse(testData);
+  //     console.log("Test data is valid");
+  //   } catch (e) {
+  //     console.log(e.issues);
+  //   }
+  // });
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -90,6 +141,7 @@ function SignIn() {
                     field.onChange(e);
                     form.trigger("username");
                   }}
+                  onBlur={() => form.trigger("username")}
                 />
               </FormControl>
               <FormMessage />
@@ -108,11 +160,12 @@ function SignIn() {
                   {...field}
                   onChange={(e) => {
                     field.onChange(e);
-                    form.trigger("username");
+                    form.trigger("password");
                   }}
+                  onBlur={() => form.trigger("password")}
                 />
               </FormControl>
-              <FormMessage />
+              {/* <FormMessage /> */}
             </FormItem>
           )}
         />
