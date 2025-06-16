@@ -9,7 +9,7 @@
   - [x] Utilizar mínimo un carácter especial (que no sea letra ni número).
   - [x] No permitir números consecutivos.
   - [x] No permitir letras consecutivas (con respecto al abecedario).
-- Cuidar inyección de código (Si lo logra, tenemos 0)
+- [ ] Cuidar inyección de código (Si lo logra, tenemos 0)
 - [x] Tener HTTPS
 - [ ] Autenticación de doble factor (email)
 - [ ] No poder tener mas de una sesión activa
