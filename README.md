@@ -9,12 +9,12 @@
 ## Inicio de sesion y registro
 
 - [x] Contraseña con requisitos:
-  - [x] Longitud mínima de 8 caracteres.
-  - [x] Utilizar mínimo una mayúscula.
-  - [x] Utilizar mínimo una minúscula.
-  - [x] Utilizar mínimo un carácter especial.
-  - [x] No permitir números consecutivos (ej. 1234).
-  - [x] No permitir letras consecutivas (ej. abcd).
+  - [x] Longitud mínima de 8 caracteres
+  - [x] Utilizar mínimo una mayúscula
+  - [x] Utilizar mínimo una minúscula
+  - [x] Utilizar mínimo un carácter especial
+  - [x] No permitir números consecutivos (ej. 1234)
+  - [x] No permitir letras consecutivas (ej. abcd)
 - [ ] Recuperar contraseña
 - [ ] Autenticación de doble factor (email)
 - [ ] Cuidar inyección de código (Si lo logra, tenemos 0)
@@ -29,4 +29,4 @@
 ## Administración
 
 - [ ] Catálogo de usuarios
-- [ ] Eliminar usuario lógicamente (Admin)
+- [ ] Eliminar usuario lógicamente
