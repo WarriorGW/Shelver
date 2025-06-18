@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeClosed } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -98,6 +100,7 @@ const formSchema = z.object({
 });
 
 function Login() {
+  const [showPassword, setShowPassword] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -109,10 +112,15 @@ function Login() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Form submitted:", values);
   }
+
+  function handleShowPassword() {
+    setShowPassword((val) => !val);
+  }
+
   return (
     <Card className="w-full max-w-sm mx-auto mt-10">
       <CardHeader>
-        <CardTitle>Registrarse</CardTitle>
+        <CardTitle>Iniciar sesión</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -148,15 +156,28 @@ function Login() {
                 <FormItem>
                   <FormLabel>Contraseña</FormLabel>
                   <FormControl>
-                    <Input
-                      type="password"
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange(e);
-                        form.trigger("password");
-                      }}
-                      onBlur={() => form.trigger("password")}
-                    />
+                    <div className="relative">
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          form.trigger("password");
+                        }}
+                        onBlur={() => form.trigger("password")}
+                      />
+                      <button
+                        type="button"
+                        onClick={handleShowPassword}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground"
+                      >
+                        {showPassword ? (
+                          <EyeClosed size={18} />
+                        ) : (
+                          <Eye size={18} />
+                        )}
+                      </button>
+                    </div>
                   </FormControl>
                   <ul className="text-xs list-disc ml-5">
                     {passwordValidations.map((v, i) => (

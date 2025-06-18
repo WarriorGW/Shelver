@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeClosed } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -104,6 +106,7 @@ const formSchema = z
   });
 
 function Register() {
+  const [showPassword, setShowPassword] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -115,6 +118,10 @@ function Register() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Form submitted:", values);
+  }
+
+  function handleShowPassword() {
+    setShowPassword((val) => !val);
   }
 
   return (
@@ -156,16 +163,30 @@ function Register() {
                 <FormItem>
                   <FormLabel>Contraseña</FormLabel>
                   <FormControl>
-                    <Input
-                      type="password"
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange(e);
-                        form.trigger("password");
-                      }}
-                      onBlur={() => form.trigger("password")}
-                    />
+                    <div className="relative">
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          form.trigger("password");
+                        }}
+                        onBlur={() => form.trigger("password")}
+                      />
+                      <button
+                        type="button"
+                        onClick={handleShowPassword}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground"
+                      >
+                        {showPassword ? (
+                          <EyeClosed size={18} />
+                        ) : (
+                          <Eye size={18} />
+                        )}
+                      </button>
+                    </div>
                   </FormControl>
+
                   <ul className="text-xs list-disc ml-5">
                     {passwordValidations.map((v, i) => (
                       <li
@@ -190,7 +211,23 @@ function Register() {
                 <FormItem>
                   <FormLabel>Confirmar contraseña</FormLabel>
                   <FormControl>
-                    <Input type="password" {...field} />
+                    <div className="relative">
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        {...field}
+                      />
+                      <button
+                        type="button"
+                        onClick={handleShowPassword}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground"
+                      >
+                        {showPassword ? (
+                          <EyeClosed size={18} />
+                        ) : (
+                          <Eye size={18} />
+                        )}
+                      </button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
