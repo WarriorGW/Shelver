@@ -1,18 +1,19 @@
 import BodyWrapper from "@/components/BodyWrapper";
 import Navbar from "@/components/Navbar";
+import QueryProvider from "@/util/QueryProvider";
 import type { Metadata } from "next";
 import { Onest } from "next/font/google";
 import "./globals.css";
 
-export const onest = Onest({
+const onest = Onest({
   weight: "variable",
   subsets: ["latin"],
   variable: "--font-onest",
 });
 
 export const metadata: Metadata = {
-  title: "Test",
-  description: "Proyecto",
+  title: "Shelver",
+  description: "Tienda de libros online",
 };
 
 export default function RootLayout({
@@ -23,8 +24,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${onest.variable}`}>
       <body className="font-onest">
-        <Navbar />
-        <BodyWrapper>{children}</BodyWrapper>
+        <QueryProvider>
+          <Navbar />
+          <BodyWrapper>{children}</BodyWrapper>
+        </QueryProvider>
       </body>
     </html>
   );
