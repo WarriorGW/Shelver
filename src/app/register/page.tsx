@@ -9,6 +9,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   Form,
   FormControl,
   FormField,
@@ -107,6 +116,8 @@ const formSchema = z
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -118,6 +129,7 @@ function Register() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Form submitted:", values);
+    setIsOpen(true);
   }
 
   function handleShowPassword() {
@@ -241,7 +253,35 @@ function Register() {
           Registrarse
         </Button>
       </CardFooter>
+      <RegisterDialog isOpen={isOpen} setIsOpen={setIsOpen} />
     </Card>
+  );
+}
+
+function RegisterDialog({
+  isOpen,
+  setIsOpen,
+}: {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  return (
+    <Dialog onOpenChange={setIsOpen} open={isOpen}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Registro exitoso</DialogTitle>
+          <DialogDescription>
+            Tu cuenta ha sido creada exitosamente. Ahora puedes iniciar sesión
+            con tu nombre de usuario y contraseña.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button>Cerrar</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 
