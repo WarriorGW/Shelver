@@ -20,6 +20,7 @@ model User {
   password         String
   role             UserRole  @default(USER)
   isActive         Boolean   @default(true)
+  isOnline         Boolean   @default(false)
   failedAttempts   Int       @default(0)
   lockedUntil      DateTime?
   lastLogin        DateTime?
