@@ -12,20 +12,27 @@ enum UserRole {
   ADMIN
 }
 
+enum UserStatus {
+  ACTIVE
+  PENDING
+  BLOCKED
+  DISABLED
+}
+
 model User {
-  id               String    @id @default(cuid())
-  email            String    @unique
+  id               String     @id @default(cuid())
+  email            String     @unique
   image            String?
   name             String?
   password         String
-  role             UserRole  @default(USER)
-  isActive         Boolean   @default(true)
-  isOnline         Boolean   @default(false)
-  failedAttempts   Int       @default(0)
+  role             UserRole   @default(USER)
+  status           UserStatus @default(ACTIVE)
+  isOnline         Boolean    @default(false)
+  failedAttempts   Int        @default(0)
   lockedUntil      DateTime?
   lastLogin        DateTime?
   resetToken       String?
   resetTokenExpiry DateTime?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
 }
