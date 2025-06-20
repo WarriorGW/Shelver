@@ -27,10 +27,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { registerUser } from "./actions";
 
 const passwordValidations = [
   {
@@ -69,9 +71,7 @@ const passwordValidations = [
 
 const formSchema = z
   .object({
-    username: z
-      .string()
-      .min(5, "Nombre de usuario debe tener al menos 5 caracteres"),
+    email: z.string().email("Debe ser un correo electrónico válido"),
     password: z
       .string()
       .min(8, "Contraseña debe tener al menos 8 caracteres")
@@ -118,10 +118,24 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  const mutation = useMutation({
+    mutationFn: async (formData: FormData) => {
+      const result = await registerUser(formData);
+      return result;
+    },
+    onSuccess: () => {
+      form.reset();
+      setIsOpen(true);
+    },
+    onError: (error: Error) => {
+      console.error("Error al registrar usuario:", error.message);
+    },
+  });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
       confirmPassword: "",
     },
@@ -129,7 +143,11 @@ function Register() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Form submitted:", values);
-    setIsOpen(true);
+    const formData = new FormData();
+    formData.append("email", values.email);
+    formData.append("password", values.password);
+
+    mutation.mutate(formData);
   }
 
   function handleShowPassword() {
@@ -150,18 +168,18 @@ function Register() {
           >
             <FormField
               control={form.control}
-              name="username"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nombre de usuario</FormLabel>
+                  <FormLabel>Correo electrónico</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
-                        form.trigger("username");
+                        form.trigger("email");
                       }}
-                      onBlur={() => form.trigger("username")}
+                      onBlur={() => form.trigger("email")}
                     />
                   </FormControl>
                   <FormMessage />
@@ -250,7 +268,7 @@ function Register() {
       </CardContent>
       <CardFooter>
         <Button type="submit" form="register-form" className="w-full">
-          Registrarse
+          {mutation.isPending ? "Registrando..." : "Registrarse"}
         </Button>
       </CardFooter>
       <RegisterDialog isOpen={isOpen} setIsOpen={setIsOpen} />
