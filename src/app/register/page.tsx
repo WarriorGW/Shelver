@@ -205,6 +205,7 @@ function Register() {
                       />
                       <button
                         type="button"
+                        tabIndex={-1}
                         onClick={handleShowPassword}
                         className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground"
                       >
@@ -248,6 +249,7 @@ function Register() {
                       />
                       <button
                         type="button"
+                        tabIndex={-1}
                         onClick={handleShowPassword}
                         className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground"
                       >
