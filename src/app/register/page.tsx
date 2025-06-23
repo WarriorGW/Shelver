@@ -26,6 +26,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { passwordValidations } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Eye, EyeClosed } from "lucide-react";
@@ -33,41 +34,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { registerUser } from "./actions";
-
-const passwordValidations = [
-  {
-    message: "Al menos 8 caracteres",
-    check: (val: string) => val.length >= 8,
-  },
-  {
-    message: "Al menos una letra mayúscula",
-    check: (val: string) => /[A-Z]/.test(val),
-  },
-  {
-    message: "Al menos una letra minúscula",
-    check: (val: string) => /[a-z]/.test(val),
-  },
-  {
-    message: "Al menos un carácter especial",
-    check: (val: string) => /[^a-zA-Z0-9]/.test(val),
-  },
-  {
-    message: "Sin números consecutivos",
-    check: (val: string) => !/(?:\d)(?=\d)/.test(val),
-  },
-  {
-    message: "Sin letras consecutivas (ej: abc)",
-    check: (val: string) => {
-      const lower = val.toLowerCase();
-      for (let i = 0; i < lower.length - 1; i++) {
-        const curr = lower.charCodeAt(i);
-        const next = lower.charCodeAt(i + 1);
-        if (/[a-z]/.test(lower[i]) && next === curr + 1) return false;
-      }
-      return true;
-    },
-  },
-];
 
 const formSchema = z
   .object({
@@ -84,21 +50,32 @@ const formSchema = z
       .refine((val) => /[^a-zA-Z0-9]/.test(val), {
         message: "Contraseña debe contener al menos un carácter especial",
       })
-      .refine((val) => !/(?:\d)(?=\d)/.test(val), {
-        message: "Contraseña no debe contener números consecutivos",
-      })
       .refine(
-        (val) => {
-          const lower = val.toLowerCase();
-          for (let i = 0; i < lower.length - 1; i++) {
-            const curr = lower.charCodeAt(i);
-            const next = lower.charCodeAt(i + 1);
-            if (
-              /[a-z]/.test(lower[i]) &&
-              /[a-z]/.test(lower[i + 1]) &&
-              next === curr + 1
-            ) {
-              return false;
+        (val: string) => {
+          const digits = val.replace(/\D/g, "");
+          for (let i = 0; i < digits.length - 2; i++) {
+            const n1 = parseInt(digits[i]);
+            const n2 = parseInt(digits[i + 1]);
+            const n3 = parseInt(digits[i + 2]);
+            if (n2 === n1 + 1 && n3 === n2 + 1) {
+              return false; // hay tres consecutivos
+            }
+          }
+          return true;
+        },
+        {
+          message: "Contraseña no debe contener números consecutivos",
+        }
+      )
+      .refine(
+        (val: string) => {
+          const letters = val.toLowerCase().replace(/[^a-z]/g, "");
+          for (let i = 0; i < letters.length - 2; i++) {
+            const c1 = letters.charCodeAt(i);
+            const c2 = letters.charCodeAt(i + 1);
+            const c3 = letters.charCodeAt(i + 2);
+            if (c2 === c1 + 1 && c3 === c2 + 1) {
+              return false; // hay tres consecutivas
             }
           }
           return true;
@@ -217,7 +194,6 @@ function Register() {
                       </button>
                     </div>
                   </FormControl>
-
                   <ul className="text-xs list-disc ml-5">
                     {passwordValidations.map((v, i) => (
                       <li
@@ -292,7 +268,8 @@ function RegisterDialog({
           <DialogTitle>Registro exitoso</DialogTitle>
           <DialogDescription>
             Tu cuenta ha sido creada exitosamente. Ahora puedes iniciar sesión
-            con tu nombre de usuario y contraseña.
+            con tu nombre de usuario y contraseña. Serás redirigido a la página
+            de inicio de sesión.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
