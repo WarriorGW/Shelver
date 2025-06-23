@@ -4,7 +4,7 @@
 
 - [x] Tener HTTPS
 - [ ] Cifrado de la URL
-- [ ] Tener roles (Administradores y usuarios)
+- [x] Tener roles (Administradores y usuarios)
 
 ## Inicio de sesion y registro
 
@@ -29,4 +29,4 @@
 ## Administración
 
 - [ ] Catálogo de usuarios
-- [ ] Eliminar usuario lógicamente
+- [x] Eliminar usuario lógicamente
