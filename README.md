@@ -30,3 +30,9 @@
 
 - [ ] Catálogo de usuarios
 - [x] Eliminar usuario lógicamente
+
+## Protección de datos
+
+- [ ] Incluir aviso de privacidad de los datos (Casilla en registro)
+- [ ] Concentimiento de autorizacion de manejo de datos
+- [ ] Incluir posibilidad de rechazar autorizacion de manejo de datos
