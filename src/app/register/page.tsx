@@ -119,7 +119,6 @@ function Register() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Form submitted:", values);
     const formData = new FormData();
     formData.append("email", values.email);
     formData.append("password", values.password);
