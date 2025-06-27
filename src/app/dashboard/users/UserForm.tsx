@@ -21,6 +21,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { editUser } from "./actions";
+import { useUsersStore } from "./useUsers";
 
 const userRoles = Object.values(UserRole) as [UserRole, ...UserRole[]];
 
@@ -35,10 +36,11 @@ const formSchema = z.object({
 interface Props {
   user: User;
   closeDialog: () => void;
-  refetchUsers: () => void;
 }
 
-function UserFormDialog({ user, closeDialog, refetchUsers }: Props) {
+function UserFormDialog({ user, closeDialog }: Props) {
+  const { refetchUsers } = useUsersStore();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,7 +62,6 @@ function UserFormDialog({ user, closeDialog, refetchUsers }: Props) {
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log("Form submitted with data:", data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("role", data.role);
