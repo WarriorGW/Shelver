@@ -1,5 +1,6 @@
 "use client";
 
+import NotificationDialog from "@/components/NotificationDialog";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,15 +20,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { passwordValidations } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { loginUser } from "./actions";
 
 const formSchema = z.object({
-  username: z
-    .string()
-    .min(5, "Nombre de usuario debe tener al menos 5 caracteres"),
+  email: z.string().email("Debe ser un correo electrónico válido"),
   password: z
     .string()
     .min(8, "Contraseña debe tener al menos 8 caracteres")
@@ -40,21 +41,32 @@ const formSchema = z.object({
     .refine((val) => /[^a-zA-Z0-9]/.test(val), {
       message: "Contraseña debe contener al menos un carácter especial",
     })
-    .refine((val) => !/(?:\d)(?=\d)/.test(val), {
-      message: "Contraseña no debe contener números consecutivos",
-    })
     .refine(
-      (val) => {
-        const lower = val.toLowerCase();
-        for (let i = 0; i < lower.length - 1; i++) {
-          const curr = lower.charCodeAt(i);
-          const next = lower.charCodeAt(i + 1);
-          if (
-            /[a-z]/.test(lower[i]) &&
-            /[a-z]/.test(lower[i + 1]) &&
-            next === curr + 1
-          ) {
-            return false;
+      (val: string) => {
+        const digits = val.replace(/\D/g, "");
+        for (let i = 0; i < digits.length - 2; i++) {
+          const n1 = parseInt(digits[i]);
+          const n2 = parseInt(digits[i + 1]);
+          const n3 = parseInt(digits[i + 2]);
+          if (n2 === n1 + 1 && n3 === n2 + 1) {
+            return false; // hay tres consecutivos
+          }
+        }
+        return true;
+      },
+      {
+        message: "Contraseña no debe contener números consecutivos",
+      }
+    )
+    .refine(
+      (val: string) => {
+        const letters = val.toLowerCase().replace(/[^a-z]/g, "");
+        for (let i = 0; i < letters.length - 2; i++) {
+          const c1 = letters.charCodeAt(i);
+          const c2 = letters.charCodeAt(i + 1);
+          const c3 = letters.charCodeAt(i + 2);
+          if (c2 === c1 + 1 && c3 === c2 + 1) {
+            return false; // hay tres consecutivas
           }
         }
         return true;
@@ -67,16 +79,52 @@ const formSchema = z.object({
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [dialogProps, setDialogProps] = useState({
+    title: "",
+    description: "",
+    type: "info" as "success" | "error" | "warning" | "info",
+  });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
 
+  const loginMutation = useMutation({
+    mutationFn: async (formData: FormData) => {
+      return await loginUser(formData);
+    },
+    onSuccess: () => {
+      form.reset();
+      setDialogProps({
+        title: "Éxito",
+        description: "Has iniciado sesión correctamente.",
+        type: "success",
+      });
+      setIsOpen(true);
+    },
+    onError: (error) => {
+      console.error("Error al iniciar sesión:", error.name);
+      setDialogProps({
+        title: "Error al iniciar sesión",
+        description: error.message,
+        type: "error",
+      });
+      setIsOpen(true);
+    },
+  });
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Form submitted:", values);
+    const formData = new FormData();
+
+    formData.append("email", values.email);
+    formData.append("password", values.password);
+
+    loginMutation.mutate(formData);
   }
 
   function handleShowPassword() {
@@ -97,18 +145,18 @@ function Login() {
           >
             <FormField
               control={form.control}
-              name="username"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nombre de usuario</FormLabel>
+                  <FormLabel>Correo electrónico</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
-                        form.trigger("username");
+                        form.trigger("email");
                       }}
-                      onBlur={() => form.trigger("username")}
+                      onBlur={() => form.trigger("email")}
                     />
                   </FormControl>
                   <FormMessage />
@@ -170,6 +218,13 @@ function Login() {
           Ingresar
         </Button>
       </CardFooter>
+      <NotificationDialog
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        title={dialogProps.title}
+        description={dialogProps.description}
+        type={dialogProps.type}
+      />
     </Card>
   );
 }

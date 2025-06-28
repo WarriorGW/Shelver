@@ -8,15 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+
+import NotificationDialog from "@/components/NotificationDialog";
 import {
   Form,
   FormControl,
@@ -95,6 +88,12 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  const [dialogProps, setDialogProps] = useState({
+    title: "",
+    description: "",
+    type: "info" as "success" | "error" | "warning" | "info",
+  });
+
   const mutation = useMutation({
     mutationFn: async (formData: FormData) => {
       const result = await registerUser(formData);
@@ -102,10 +101,22 @@ function Register() {
     },
     onSuccess: () => {
       form.reset();
+      setDialogProps({
+        title: "Registro exitoso",
+        description:
+          "Usuario registrado correctamente. Ahora puedes iniciar sesión.",
+        type: "success",
+      });
       setIsOpen(true);
     },
-    onError: (error: Error) => {
-      console.error("Error al registrar usuario:", error.message);
+    onError: (error) => {
+      console.error("Error al registrar usuario:", error.name);
+      setDialogProps({
+        title: "Error al registrar usuario",
+        description: error.message,
+        type: "error",
+      });
+      setIsOpen(true);
     },
   });
 
@@ -248,36 +259,14 @@ function Register() {
           {mutation.isPending ? "Registrando..." : "Registrarse"}
         </Button>
       </CardFooter>
-      <RegisterDialog isOpen={isOpen} setIsOpen={setIsOpen} />
+      <NotificationDialog
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        title={dialogProps.title}
+        description={dialogProps.description}
+        type={dialogProps.type}
+      />
     </Card>
-  );
-}
-
-function RegisterDialog({
-  isOpen,
-  setIsOpen,
-}: {
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
-  return (
-    <Dialog onOpenChange={setIsOpen} open={isOpen}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Registro exitoso</DialogTitle>
-          <DialogDescription>
-            Tu cuenta ha sido creada exitosamente. Ahora puedes iniciar sesión
-            con tu nombre de usuario y contraseña. Serás redirigido a la página
-            de inicio de sesión.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button>Cerrar</Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
   );
 }
 
