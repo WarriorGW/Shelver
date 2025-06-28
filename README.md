@@ -8,7 +8,7 @@
 
 ## Inicio de sesion y registro
 
-- [x] Contraseña con requisitos:
+- Contraseña con requisitos:
   - [x] Longitud mínima de 8 caracteres
   - [x] Utilizar mínimo una mayúscula
   - [x] Utilizar mínimo una minúscula
@@ -28,8 +28,15 @@
 
 ## Administración
 
-- [ ] Catálogo de usuarios
-- [x] Eliminar usuario lógicamente
+- Catálogo de usuarios
+  - [x] Editar usuario (Nombre, rol)
+  - [x] Bloquear y desbloquear usuario
+  - [x] Deshabilitar y habilitar usuario
+  - [ ] Buscar por Id, Nombre, Email
+  - [ ] Ordenar por Nombre, Email, Rol, Estado
+  - [ ] Filtrar por Nombre, Email, Rol, Estado
+  - [ ] Deshabilitar columnas
+  - [ ] Paginacion
 
 ## Protección de datos
 
