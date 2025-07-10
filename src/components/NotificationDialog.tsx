@@ -8,13 +8,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { AlertTriangle, CheckCircle, HelpCircle, XCircle } from "lucide-react";
+import React from "react";
 import { Button } from "./ui/button";
 
 interface NotificationDialogProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
-  description: string;
+  description: React.ReactNode;
   type?: "success" | "error" | "warning" | "info";
   onConfirm?: () => void;
   confirmText?: string;
@@ -46,7 +47,9 @@ function NotificationDialog({
             {iconMap[type]}
             <DialogTitle>{title}</DialogTitle>
           </div>
-          <DialogDescription>{description}</DialogDescription>
+          <DialogDescription asChild>
+            <div>{description}</div>
+          </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           {cancelText && (

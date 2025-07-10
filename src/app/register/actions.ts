@@ -2,6 +2,7 @@
 
 import db from "@/db";
 import { CustomError } from "@/lib/errors";
+import { hash } from "bcrypt";
 
 export async function registerUser(formData: FormData) {
   const existingUser = await db.user.findFirst({
@@ -14,10 +15,12 @@ export async function registerUser(formData: FormData) {
       message: "Este correo ya está registrado",
     });
 
+  const hashedPassword = await hash(String(formData.get("password")), 10);
+
   const newUser = await db.user.create({
     data: {
       email: String(formData.get("email")),
-      password: String(formData.get("password")),
+      password: hashedPassword,
     },
   });
 

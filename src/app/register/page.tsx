@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/card";
 
 import NotificationDialog from "@/components/NotificationDialog";
+import Terms from "@/components/Terms";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -23,7 +25,7 @@ import { passwordValidations } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Eye, EyeClosed } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { registerUser } from "./actions";
@@ -78,6 +80,9 @@ const formSchema = z
         }
       ),
     confirmPassword: z.string(),
+    terms: z.literal(true).refine((val) => val === true, {
+      message: "Debes aceptar los términos y condiciones",
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
@@ -88,10 +93,14 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const [dialogProps, setDialogProps] = useState({
+  const [dialogProps, setDialogProps] = useState<{
+    title: string;
+    description: React.ReactNode;
+    type: "success" | "error" | "warning" | "info";
+  }>({
     title: "",
     description: "",
-    type: "info" as "success" | "error" | "warning" | "info",
+    type: "info",
   });
 
   const mutation = useMutation({
@@ -251,11 +260,64 @@ function Register() {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="terms"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center gap-2">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel className="text-xs flex flex-wrap">
+                    <span>Acepto los</span>
+                    <button
+                      type="button"
+                      // variant="link"
+                      className="text-sky-400 p-0! hover:cursor-pointer h-auto gap-0underline-offset-2 hover:underline"
+                      onClick={() => {
+                        setDialogProps({
+                          title: "Términos y Condiciones",
+                          description: <Terms mode={1} />,
+                          type: "info",
+                        });
+                        setIsOpen(true);
+                      }}
+                    >
+                      Terminos y Condiciones
+                    </button>
+                    y tambien el
+                    <button
+                      type="button"
+                      // variant="link"
+                      className="text-sky-400 p-0! hover:cursor-pointer h-auto gap-0underline-offset-2 hover:underline"
+                      onClick={() => {
+                        setDialogProps({
+                          title: "Aviso de Privacidad",
+                          description: <Terms mode={2} />,
+                          type: "info",
+                        });
+                        setIsOpen(true);
+                      }}
+                    >
+                      Aviso de privacidad
+                    </button>
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
           </form>
         </Form>
       </CardContent>
       <CardFooter>
-        <Button type="submit" form="register-form" className="w-full">
+        <Button
+          type="submit"
+          form="register-form"
+          className="w-full"
+          disabled={mutation.isPending}
+        >
           {mutation.isPending ? "Registrando..." : "Registrarse"}
         </Button>
       </CardFooter>
