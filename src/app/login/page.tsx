@@ -18,6 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/lib/auth/useAuth";
 import { passwordValidations } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -25,7 +26,6 @@ import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { loginUser } from "./actions";
 
 const formSchema = z.object({
   email: z.string().email("Debe ser un correo electrónico válido"),
@@ -94,9 +94,11 @@ function Login() {
     },
   });
 
+  const { login } = useAuth();
+
   const loginMutation = useMutation({
     mutationFn: async (formData: FormData) => {
-      return await loginUser(formData);
+      return await login(formData);
     },
     onSuccess: () => {
       form.reset();

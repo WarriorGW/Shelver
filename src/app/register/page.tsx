@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/lib/auth/useAuth";
 import { passwordValidations } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -28,7 +29,6 @@ import { Eye, EyeClosed } from "lucide-react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { registerUser } from "./actions";
 
 const formSchema = z
   .object({
@@ -93,6 +93,8 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  const { register } = useAuth();
+
   const [dialogProps, setDialogProps] = useState<{
     title: string;
     description: React.ReactNode;
@@ -105,7 +107,7 @@ function Register() {
 
   const mutation = useMutation({
     mutationFn: async (formData: FormData) => {
-      const result = await registerUser(formData);
+      const result = await register(formData);
       return result;
     },
     onSuccess: () => {
