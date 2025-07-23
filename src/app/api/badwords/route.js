@@ -164,7 +164,12 @@ export async function POST(request) {
   if (typeof text !== "string") {
     return new Response(JSON.stringify({ error: "Texto inválido" }), {
       status: 400,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
     });
   }
 
@@ -183,6 +188,14 @@ export async function POST(request) {
 
   return new Response(
     JSON.stringify({ original: text, censored, hasProfanity }),
-    { status: 200, headers: { "Content-Type": "application/json" } }
+    {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    }
   );
 }
