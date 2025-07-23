@@ -158,18 +158,20 @@ function createPattern(word) {
     .join("");
 }
 
+const headers = {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
+
 export async function POST(request) {
   const { text } = await request.json();
 
   if (typeof text !== "string") {
     return new Response(JSON.stringify({ error: "Texto inválido" }), {
       status: 400,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-      },
+      headers,
     });
   }
 
@@ -190,12 +192,14 @@ export async function POST(request) {
     JSON.stringify({ original: text, censored, hasProfanity }),
     {
       status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-      },
+      headers,
     }
   );
+}
+
+export function OPTIONS() {
+  return new Response(null, {
+    status: 204,
+    headers,
+  });
 }
