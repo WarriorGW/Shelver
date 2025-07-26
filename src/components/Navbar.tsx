@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/lib/auth/useAuth";
+import { getAvatarUrl } from "@/lib/getAvatarUrl";
 import { User as PrismaUser } from "@prisma/client";
 import { LayoutDashboard, LogOut, Settings, User, Users } from "lucide-react";
 import Link from "next/link";
@@ -48,6 +49,13 @@ function UserMenu({ user }: { user: PrismaUser }) {
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger className={buttonVariants({ variant: "ghost" })}>
+          <img
+            src={getAvatarUrl(user.email)}
+            alt="avatar"
+            width={24}
+            height={24}
+            className="rounded-full"
+          />
           {user.name ? user.name : user.email}
         </DropdownMenuTrigger>
         <DropdownMenuContent>
