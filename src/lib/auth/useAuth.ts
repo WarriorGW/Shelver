@@ -12,7 +12,7 @@ interface AuthState {
   getSession: () => Promise<void>;
 }
 
-export const useAuth = create<AuthState>((set) => ({
+export const useAuth = create<AuthState>((set, get) => ({
   user: null,
   loading: true,
 
@@ -34,8 +34,10 @@ export const useAuth = create<AuthState>((set) => ({
   },
 
   getSession: async () => {
-    const user = await getCurrentUser();
-    set({ user, loading: false });
+    const { user } = get();
+    if (user !== null) return;
+    const newUser = await getCurrentUser();
+    set({ user: newUser, loading: false });
   },
 }));
 

@@ -13,16 +13,10 @@ import { useAuth } from "@/lib/auth/useAuth";
 import { User as PrismaUser } from "@prisma/client";
 import { LayoutDashboard, LogOut, Settings, User, Users } from "lucide-react";
 import Link from "next/link";
-import { useEffect } from "react";
 import { buttonVariants } from "./ui/button";
 
 function Navbar() {
-  const { user, getSession } = useAuth();
-
-  useEffect(() => {
-    console.log("Navbar useEffect called");
-    getSession();
-  }, [getSession]);
+  const { user } = useAuth();
 
   return (
     <nav className="w-full h-[7vh] bg-sky-200 flex flex-row justify-between items-center px-4">
