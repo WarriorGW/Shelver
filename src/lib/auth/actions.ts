@@ -26,6 +26,8 @@ export async function registerUser(formData: FormData) {
     },
   });
 
+  await createSession(newUser.id);
+
   return newUser;
 }
 

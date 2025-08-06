@@ -18,6 +18,7 @@ interface NotificationDialogProps {
   description: React.ReactNode;
   type?: "success" | "error" | "warning" | "info";
   onConfirm?: () => void;
+  onClose?: () => void;
   confirmText?: string;
   cancelText?: string;
 }
@@ -30,6 +31,7 @@ function NotificationDialog({
   type = "info",
   confirmText,
   onConfirm,
+  onClose,
   cancelText,
 }: NotificationDialogProps) {
   const iconMap = {
@@ -71,7 +73,7 @@ function NotificationDialog({
           )}
           {!confirmText && !cancelText && (
             <DialogClose asChild>
-              <Button>Cerrar</Button>
+              <Button onClick={() => onClose?.()}>Cerrar</Button>
             </DialogClose>
           )}
         </DialogFooter>

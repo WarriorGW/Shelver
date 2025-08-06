@@ -23,6 +23,7 @@ import { passwordValidations } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Eye, EyeClosed, Loader2Icon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -95,6 +96,7 @@ function Login() {
   });
 
   const { login } = useAuth();
+  const router = useRouter();
 
   const loginMutation = useMutation({
     mutationFn: async (formData: FormData) => {
@@ -238,6 +240,9 @@ function Login() {
         title={dialogProps.title}
         description={dialogProps.description}
         type={dialogProps.type}
+        onClose={() => {
+          router.push("/");
+        }}
       />
     </Card>
   );

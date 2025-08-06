@@ -26,6 +26,7 @@ import { passwordValidations } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Eye, EyeClosed, Loader2Icon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -94,6 +95,7 @@ function Register() {
   const [isOpen, setIsOpen] = useState(false);
 
   const { register } = useAuth();
+  const router = useRouter();
 
   const [dialogProps, setDialogProps] = useState<{
     title: string;
@@ -115,7 +117,7 @@ function Register() {
       setDialogProps({
         title: "Registro exitoso",
         description:
-          "Usuario registrado correctamente. Ahora puedes iniciar sesión.",
+          "Usuario registrado correctamente. Se iniciara sesion automaticamente en tu cuenta.",
         type: "success",
       });
       setIsOpen(true);
@@ -336,6 +338,9 @@ function Register() {
         title={dialogProps.title}
         description={dialogProps.description}
         type={dialogProps.type}
+        onClose={() => {
+          router.push("/");
+        }}
       />
     </Card>
   );
