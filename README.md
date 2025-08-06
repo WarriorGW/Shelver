@@ -4,10 +4,15 @@ Este es un proyecto que elaboré durante el noveno cuatrimestre de la Universida
 
 # Requerimientos
 
+[████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 30%
+
+## Repositorio
+
+- [x] Tener versionamiento en algun repositorio
+
 ## Base
 
 - [x] Tener HTTPS
-- [ ] Cifrado de la URL
 - [x] Tener roles (Administradores y usuarios)
 
 ## Inicio de sesion y registro
@@ -41,6 +46,19 @@ Este es un proyecto que elaboré durante el noveno cuatrimestre de la Universida
   - [ ] Filtrar por Nombre, Email, Rol, Estado
   - [ ] Deshabilitar columnas
   - [ ] Paginacion
+- [ ] Catalogo unico (Disponibilidad de libros)
+  - [ ] Registro de libros disponibles
+  - [ ] Actualizacion de los libros disponibles
+  - [ ] Borrado de libros para libros ya no disponibles
+- [ ] Catalogo maestro/detalle (Prestamo de libros Usuario/Libro)
+  - [ ] Registro de nuevos prestamos por usuario
+  - [ ] Actualizacion de los libros prestados
+  - [ ] Borrado de prestamos completados
+
+## API's
+
+- [x] Consumo de algun API de un tercero
+- [x] Implementar una API propia para que un tercero use
 
 ## Protección de datos
 
