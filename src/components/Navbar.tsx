@@ -14,10 +14,10 @@ import { getAvatarUrl } from "@/lib/getAvatarUrl";
 import { User as PrismaUser } from "@prisma/client";
 import { LayoutDashboard, LogOut, Settings, User, Users } from "lucide-react";
 import Link from "next/link";
-import { buttonVariants } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 
 function Navbar() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
   return (
     <nav className="w-full h-[7vh] bg-sky-200 flex flex-row justify-between items-center px-4">
@@ -25,7 +25,9 @@ function Navbar() {
         Shelver
       </Link>
 
-      {user ? (
+      {loading ? (
+        <Button variant="ghost">Cargando...</Button>
+      ) : user ? (
         <UserMenu user={user} />
       ) : (
         <div>

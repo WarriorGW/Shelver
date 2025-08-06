@@ -1,5 +1,6 @@
 import BodyWrapper from "@/components/BodyWrapper";
 import Navbar from "@/components/Navbar";
+import SessionInitializer from "@/components/SessionInitializer";
 import QueryProvider from "@/util/QueryProvider";
 import type { Metadata } from "next";
 import { Onest } from "next/font/google";
@@ -25,6 +26,7 @@ export default function RootLayout({
     <html lang="en" className={`${onest.variable}`}>
       <body className="font-onest">
         <QueryProvider>
+          <SessionInitializer />
           <Navbar />
           <BodyWrapper>{children}</BodyWrapper>
         </QueryProvider>
