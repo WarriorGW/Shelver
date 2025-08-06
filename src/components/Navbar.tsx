@@ -47,6 +47,7 @@ function Navbar() {
 }
 
 function UserMenu({ user }: { user: PrismaUser }) {
+  const { logout } = useAuth();
   return (
     <div>
       <DropdownMenu>
@@ -87,7 +88,12 @@ function UserMenu({ user }: { user: PrismaUser }) {
               </DropdownMenuSub>
             )}
           </DropdownMenuItem>
-          <DropdownMenuItem variant="destructive">
+          <DropdownMenuItem
+            variant="destructive"
+            onClick={() => {
+              logout();
+            }}
+          >
             <LogOut /> Cerrar sesion
           </DropdownMenuItem>
         </DropdownMenuContent>

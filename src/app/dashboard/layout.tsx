@@ -2,20 +2,15 @@
 import BodyWrapper from "@/components/BodyWrapper";
 import { useAuth } from "@/lib/auth/useAuth";
 import { notFound } from "next/navigation";
-import { useEffect } from "react";
 
 function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const user = useAuth();
+  const { user, loading } = useAuth();
 
-  useEffect(() => {
-    console.log(user.user);
-  }, [user]);
-
-  if (!user || user.user?.role !== "ADMIN") {
-    notFound();
+  if (!user || user?.role !== "ADMIN") {
+    return notFound();
   }
 
-  return <BodyWrapper>{children}</BodyWrapper>;
+  return <BodyWrapper>{loading ? <></> : children}</BodyWrapper>;
 }
 
 export default DashboardLayout;

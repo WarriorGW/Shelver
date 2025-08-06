@@ -25,7 +25,7 @@ import { useAuth } from "@/lib/auth/useAuth";
 import { passwordValidations } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { Eye, EyeClosed } from "lucide-react";
+import { Eye, EyeClosed, Loader2Icon } from "lucide-react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -320,7 +320,14 @@ function Register() {
           className="w-full"
           disabled={mutation.isPending}
         >
-          {mutation.isPending ? "Registrando..." : "Registrarse"}
+          {mutation.isPending ? (
+            <>
+              <Loader2Icon className="animate-spin" />
+              Registrando...
+            </>
+          ) : (
+            "Registrarse"
+          )}
         </Button>
       </CardFooter>
       <NotificationDialog

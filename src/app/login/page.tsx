@@ -22,7 +22,7 @@ import { useAuth } from "@/lib/auth/useAuth";
 import { passwordValidations } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { Eye, EyeClosed } from "lucide-react";
+import { Eye, EyeClosed, Loader2Icon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -216,8 +216,20 @@ function Login() {
         </Form>
       </CardContent>
       <CardFooter>
-        <Button type="submit" form="register-form" className="w-full">
-          Ingresar
+        <Button
+          type="submit"
+          form="register-form"
+          className="w-full"
+          disabled={loginMutation.isPending}
+        >
+          {loginMutation.isPending ? (
+            <>
+              <Loader2Icon className="animate-spin" />
+              Ingresando...
+            </>
+          ) : (
+            "Ingresar"
+          )}
         </Button>
       </CardFooter>
       <NotificationDialog
