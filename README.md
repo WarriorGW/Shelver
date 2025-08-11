@@ -4,7 +4,7 @@ Este es un proyecto que elaboré durante el noveno cuatrimestre de la Universida
 
 # Requerimientos
 
-[████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 30%
+[███████████████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░] 51%
 
 ## Repositorio
 
@@ -17,7 +17,7 @@ Este es un proyecto que elaboré durante el noveno cuatrimestre de la Universida
 
 ## Inicio de sesion y registro
 
-- Contraseña con requisitos:
+- [x] Contraseña con requisitos:
   - [x] Longitud mínima de 8 caracteres
   - [x] Utilizar mínimo una mayúscula
   - [x] Utilizar mínimo una minúscula
@@ -26,8 +26,8 @@ Este es un proyecto que elaboré durante el noveno cuatrimestre de la Universida
   - [x] No permitir letras consecutivas (ej. abcd)
 - [ ] Recuperar contraseña
 - [ ] Autenticación de doble factor (email)
-- [ ] Cuidar inyección de código (Si lo logra, tenemos 0)
-- [ ] Actualización de información de usuario (Nombre, Foto, Contraseña, Etc)
+- [x] Cuidar inyección de código (Si lo logra, tenemos 0)
+- [x] Actualización de información de usuario (Nombre, Foto, Contraseña, Etc)
 
 ## Manejo de sesiones
 
@@ -37,20 +37,19 @@ Este es un proyecto que elaboré durante el noveno cuatrimestre de la Universida
 
 ## Administración
 
-- Catálogo de usuarios
+- [ ] Catálogo de usuarios
   - [x] Editar usuario (Nombre, rol)
   - [x] Bloquear y desbloquear usuario
   - [x] Deshabilitar y habilitar usuario
   - [ ] Buscar por Id, Nombre, Email
-  - [ ] Ordenar por Nombre, Email, Rol, Estado
-  - [ ] Filtrar por Nombre, Email, Rol, Estado
+  - [x] Ordenar por Nombre, Email, Rol, Estado
   - [ ] Deshabilitar columnas
   - [ ] Paginacion
-- [ ] Catalogo unico (Disponibilidad de libros)
+- [x] Catalogo unico (Disponibilidad de libros)
   - [ ] Registro de libros disponibles
   - [ ] Actualizacion de los libros disponibles
   - [ ] Borrado de libros para libros ya no disponibles
-- [ ] Catalogo maestro/detalle (Prestamo de libros Usuario/Libro)
+- [x] Catalogo maestro/detalle (Prestamo de libros Usuario/Libro)
   - [ ] Registro de nuevos prestamos por usuario
   - [ ] Actualizacion de los libros prestados
   - [ ] Borrado de prestamos completados
@@ -62,6 +61,6 @@ Este es un proyecto que elaboré durante el noveno cuatrimestre de la Universida
 
 ## Protección de datos
 
-- [ ] Incluir aviso de privacidad de los datos (Casilla en registro)
-- [ ] Concentimiento de autorizacion de manejo de datos
-- [ ] Incluir posibilidad de rechazar autorizacion de manejo de datos
+- [x] Incluir aviso de privacidad de los datos (Casilla en registro)
+- [x] Concentimiento de autorizacion de manejo de datos
+- [x] Incluir posibilidad de rechazar autorizacion de manejo de datos
