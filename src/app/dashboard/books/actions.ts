@@ -1,7 +1,6 @@
 "use server";
 
 import db from "@/db";
-import type { Book } from "@prisma/client";
 
 export async function getBooks() {
   const books = await db.book.findMany({ orderBy: { createdAt: "desc" } });

@@ -2,12 +2,14 @@ import { buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Book } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
-import { MoreHorizontal } from "lucide-react";
+import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
 import React from "react";
 import { deleteBook } from "./actions";
 import { useBooksStore } from "./useBooks";
@@ -35,6 +37,23 @@ function RowActions({ book }: { book: Book }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => {
+              openDialog(book);
+            }}
+          >
+            <Edit />
+            Editar
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            variant="destructive"
+            onClick={() => {
+              deleteMutation.mutate(book.id);
+            }}
+          >
+            <Trash2 /> Eliminar
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </>
