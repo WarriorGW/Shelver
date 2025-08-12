@@ -12,7 +12,15 @@ import {
 import { useAuth } from "@/lib/auth/useAuth";
 import { getAvatarUrl } from "@/lib/getAvatarUrl";
 import { User as PrismaUser } from "@prisma/client";
-import { LayoutDashboard, LogOut, Settings, User, Users } from "lucide-react";
+import {
+  HandHelping,
+  LayoutDashboard,
+  LibraryBig,
+  LogOut,
+  Settings,
+  User,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
 import { Button, buttonVariants } from "./ui/button";
 
@@ -82,6 +90,16 @@ function UserMenu({ user }: { user: PrismaUser }) {
                   <DropdownMenuItem asChild>
                     <Link href="/dashboard/users">
                       <Users /> Usuarios
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard/books">
+                      <LibraryBig /> Libros
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard/loans">
+                      <HandHelping /> Prestamos
                     </Link>
                   </DropdownMenuItem>
                 </DropdownMenuSubContent>
