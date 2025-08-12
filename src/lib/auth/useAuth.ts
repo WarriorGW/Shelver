@@ -40,34 +40,3 @@ export const useAuth = create<AuthState>((set, get) => ({
     set({ user: newUser, loading: false });
   },
 }));
-
-// export const useAuth = create((set) => ({
-//   user: null,
-//   isLoading: true,
-
-//   login: async (email: string, password: string) => {
-//     const res = await fetch("/auth/login", {
-//       method: "POST",
-//       body: JSON.stringify({ email, password }),
-//     });
-//     if (res.ok) {
-//       const user = await res.json();
-//       set({ user, isLoading: false });
-//     }
-//   },
-
-//   logout: async () => {
-//     await fetch("/auth/logout", { method: "POST" });
-//     set({ user: null });
-//   },
-
-//   getSession: async () => {
-//     const res = await fetch("/auth/session");
-//     if (res.ok) {
-//       const user = await res.json();
-//       set({ user, isLoading: false });
-//     } else {
-//       set({ user: null, isLoading: false });
-//     }
-//   },
-// }));

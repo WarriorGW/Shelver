@@ -5,7 +5,9 @@ import db from "@/db";
 import { cookies } from "next/headers";
 
 export async function createSession(userId: string) {
-  const expiresAt = new Date(Date.now() + 1000 * 60 * 15); // 15 minutos
+  // const expiresAt = new Date(Date.now() + 1000 * 60 * 15); // 15 minutos
+
+  const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24); // 24 horas
 
   // 1. Crear sesión en base de datos
   const session = await db.session.create({

@@ -1,16 +1,12 @@
-"use client";
+import AuthGuardian from "@/components/AuthGuardian";
 import BodyWrapper from "@/components/BodyWrapper";
-import { useAuth } from "@/lib/auth/useAuth";
-import { notFound } from "next/navigation";
 
 function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth();
-
-  if (!user || user?.role !== "ADMIN") {
-    return notFound();
-  }
-
-  return <BodyWrapper>{loading ? <></> : children}</BodyWrapper>;
+  return (
+    <AuthGuardian>
+      <BodyWrapper>{children}</BodyWrapper>
+    </AuthGuardian>
+  );
 }
 
 export default DashboardLayout;
