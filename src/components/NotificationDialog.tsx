@@ -11,16 +11,26 @@ import { AlertTriangle, CheckCircle, HelpCircle, XCircle } from "lucide-react";
 import React from "react";
 import { Button } from "./ui/button";
 
+export type NotifProps = {
+  title: string;
+  description: React.ReactNode;
+  type?: "success" | "error" | "warning" | "info";
+  confirmText?: string;
+  cancelText?: string;
+  onConfirm?: () => void;
+  onClose?: () => void;
+};
+
 interface NotificationDialogProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
   description: React.ReactNode;
   type?: "success" | "error" | "warning" | "info";
-  onConfirm?: () => void;
-  onClose?: () => void;
   confirmText?: string;
   cancelText?: string;
+  onConfirm?: () => void;
+  onClose?: () => void;
 }
 
 function NotificationDialog({
@@ -30,9 +40,9 @@ function NotificationDialog({
   description,
   type = "info",
   confirmText,
+  cancelText,
   onConfirm,
   onClose,
-  cancelText,
 }: NotificationDialogProps) {
   const iconMap = {
     success: <CheckCircle className="text-green-500" size={24} />,
@@ -66,6 +76,7 @@ function NotificationDialog({
                   onConfirm?.();
                   setIsOpen(false);
                 }}
+                variant={type === "warning" ? "destructive" : "default"}
               >
                 {confirmText}
               </Button>
