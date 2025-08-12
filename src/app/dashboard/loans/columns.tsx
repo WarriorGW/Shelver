@@ -6,7 +6,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { getAvatarUrl } from "@/lib/getAvatarUrl";
-import { localeCompareSortingFn } from "@/lib/sortingFunctions";
 import { Loan } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import RowActions from "./RowActions";
