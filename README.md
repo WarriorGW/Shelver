@@ -4,7 +4,7 @@ Este es un proyecto que elaboré durante el noveno cuatrimestre de la Universida
 
 # Requerimientos
 
-[█████████████████████████████████████████░░░░░░░░░░░░░░░░░] 65%
+[████████████████████████████████████████████░░░░░░░░░░░░░░] 69%
 
 ## Repositorio
 
@@ -51,11 +51,11 @@ Este es un proyecto que elaboré durante el noveno cuatrimestre de la Universida
   - [x] Ordenar por Nombre, Email, Rol, Estado
   - [ ] Deshabilitar columnas
 - [x] Catalogo unico (Disponibilidad de libros)
-  - [ ] Registro de libros disponibles
-  - [ ] Actualizacion de los libros disponibles
+  - [x] Registro de libros disponibles
+  - [x] Actualizacion de los libros disponibles
   - [x] Borrado de libros para libros ya no disponibles
 - [x] Catalogo maestro/detalle (Prestamo de libros Usuario/Libro)
-  - [ ] Registro de nuevos prestamos por usuario
+  - [x] Registro de nuevos prestamos por usuario
   - [x] Actualizacion de los libros prestados
   - [x] Borrado de prestamos completados
 
